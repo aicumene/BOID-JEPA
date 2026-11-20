@@ -1,0 +1,502 @@
+{
+ "runs": [
+  {
+   "label": "run 0",
+   "N": 1024,
+   "d_hankel": 23,
+   "pairs_resolved": 9,
+   "pairs_unresolved": 1,
+   "weak_pairs": 0,
+   "real_poles": [
+    0.9990000128746033,
+    0.9950000047683716,
+    0.9819999933242798
+   ],
+   "periods_resolved": [
+    45.0,
+    23.0,
+    19.0,
+    15.0,
+    9.0,
+    8.0,
+    6.0,
+    5.0,
+    4.0
+   ],
+   "periods_unresolved": [
+    599.0
+   ],
+   "mod_resolved": [
+    0.9779999852180481,
+    0.9729999899864197,
+    0.9710000157356262,
+    0.9760000109672546,
+    0.9570000171661377,
+    0.9750000238418579,
+    0.9779999852180481,
+    0.9819999933242798,
+    0.9789999723434448
+   ],
+   "above_AR1": 36,
+   "osc_above_AR1": 9,
+   "periods_above_AR1": [
+    434.0,
+    65.0,
+    48.0,
+    25.0,
+    20.0,
+    14.0,
+    12.0,
+    7.0,
+    5.0
+   ],
+   "above_1/f": 37,
+   "osc_above_1/f": 7,
+   "periods_above_1/f": [
+    140.0,
+    66.0,
+    39.0,
+    22.0,
+    20.0,
+    13.0,
+    6.0
+   ],
+   "detrended": {
+    "d_hankel": 27,
+    "pairs_resolved": 10,
+    "pairs_unresolved": 1,
+    "real_poles": [
+     0.9940000176429749
+    ],
+    "periods_resolved": [
+     74.0,
+     40.0,
+     26.0,
+     23.0,
+     14.0,
+     12.0,
+     8.0,
+     5.0,
+     4.0,
+     3.0
+    ]
+   },
+   "resolved_surviving_detrend": 8,
+   "stable_all": [],
+   "stable_across_lag": [
+    9.0
+   ],
+   "stable_across_length": [
+    45.0,
+    23.0,
+    19.0,
+    15.0,
+    8.0,
+    6.0,
+    5.0,
+    4.0
+   ],
+   "d_hankel_by_setting": {
+    "L8_N512": null,
+    "L8_N768": null,
+    "L8_N1024": null,
+    "L16_N512": null,
+    "L16_N768": null,
+    "L16_N1024": null,
+    "L32_N512": null,
+    "L32_N768": null,
+    "L32_N1024": null
+   }
+  },
+  {
+   "label": "run 1",
+   "N": 1024,
+   "d_hankel": 22,
+   "pairs_resolved": 9,
+   "pairs_unresolved": 1,
+   "weak_pairs": 0,
+   "real_poles": [
+    1.0010000467300415,
+    0.9980000257492065
+   ],
+   "periods_resolved": [
+    89.0,
+    46.0,
+    27.0,
+    20.0,
+    13.0,
+    11.0,
+    8.0,
+    5.0,
+    4.0
+   ],
+   "periods_unresolved": [
+    553.0
+   ],
+   "mod_resolved": [
+    0.9670000076293945,
+    0.9769999980926514,
+    0.9660000205039978,
+    0.9789999723434448,
+    0.9629999995231628,
+    0.9919999837875366,
+    0.9829999804496765,
+    0.9700000286102295,
+    0.9869999885559082
+   ],
+   "above_AR1": 32,
+   "osc_above_AR1": 12,
+   "periods_above_AR1": [
+    399.0,
+    84.0,
+    31.0,
+    27.0,
+    21.0,
+    17.0,
+    11.0,
+    10.0,
+    9.0,
+    6.0,
+    6.0,
+    3.0
+   ],
+   "above_1/f": 35,
+   "osc_above_1/f": 10,
+   "periods_above_1/f": [
+    74.0,
+    48.0,
+    26.0,
+    20.0,
+    14.0,
+    10.0,
+    7.0,
+    5.0,
+    5.0,
+    3.0
+   ],
+   "detrended": {
+    "d_hankel": 28,
+    "pairs_resolved": 12,
+    "pairs_unresolved": 1,
+    "real_poles": [
+     0.9950000047683716,
+     0.9769999980926514
+    ],
+    "periods_resolved": [
+     98.0,
+     38.0,
+     33.0,
+     22.0,
+     17.0,
+     14.0,
+     10.0,
+     8.0,
+     6.0,
+     6.0,
+     5.0,
+     4.0
+    ]
+   },
+   "resolved_surviving_detrend": 9,
+   "stable_all": [
+    11.0
+   ],
+   "stable_across_lag": [
+    27.0,
+    13.0,
+    11.0
+   ],
+   "stable_across_length": [
+    46.0,
+    27.0,
+    20.0,
+    13.0,
+    11.0,
+    8.0,
+    5.0
+   ],
+   "d_hankel_by_setting": {
+    "L8_N512": null,
+    "L8_N768": null,
+    "L8_N1024": null,
+    "L16_N512": null,
+    "L16_N768": null,
+    "L16_N1024": null,
+    "L32_N512": null,
+    "L32_N768": null,
+    "L32_N1024": null
+   }
+  },
+  {
+   "label": "run 2",
+   "N": 1024,
+   "d_hankel": 20,
+   "pairs_resolved": 9,
+   "pairs_unresolved": 1,
+   "weak_pairs": 0,
+   "real_poles": [],
+   "periods_resolved": [
+    500.0,
+    70.0,
+    30.0,
+    21.0,
+    17.0,
+    12.0,
+    10.0,
+    7.0,
+    5.0
+   ],
+   "periods_unresolved": [
+    1596.0
+   ],
+   "mod_resolved": [
+    0.9829999804496765,
+    0.9789999723434448,
+    0.9769999980926514,
+    0.9890000224113464,
+    0.9879999756813049,
+    0.9819999933242798,
+    0.9829999804496765,
+    0.9950000047683716,
+    0.996999979019165
+   ],
+   "above_AR1": 36,
+   "osc_above_AR1": 8,
+   "periods_above_AR1": [
+    258.0,
+    76.0,
+    51.0,
+    40.0,
+    28.0,
+    17.0,
+    13.0,
+    5.0
+   ],
+   "above_1/f": 32,
+   "osc_above_1/f": 8,
+   "periods_above_1/f": [
+    108.0,
+    61.0,
+    52.0,
+    39.0,
+    22.0,
+    14.0,
+    11.0,
+    5.0
+   ],
+   "detrended": {
+    "d_hankel": 28,
+    "pairs_resolved": 10,
+    "pairs_unresolved": 0,
+    "real_poles": [
+     0.996999979019165,
+     0.9869999885559082
+    ],
+    "periods_resolved": [
+     157.0,
+     67.0,
+     37.0,
+     20.0,
+     14.0,
+     9.0,
+     6.0,
+     5.0,
+     4.0,
+     3.0
+    ]
+   },
+   "resolved_surviving_detrend": 7,
+   "stable_all": [],
+   "stable_across_lag": [
+    30.0,
+    17.0,
+    12.0,
+    10.0,
+    5.0
+   ],
+   "stable_across_length": [
+    70.0,
+    30.0,
+    21.0,
+    17.0,
+    12.0,
+    10.0,
+    7.0
+   ],
+   "d_hankel_by_setting": {
+    "L8_N512": null,
+    "L8_N768": null,
+    "L8_N1024": null,
+    "L16_N512": null,
+    "L16_N768": null,
+    "L16_N1024": null,
+    "L32_N512": null,
+    "L32_N768": null,
+    "L32_N1024": null
+   }
+  }
+ ],
+ "rollouts": [
+  {
+   "label": "rollout 0",
+   "N": 300,
+   "d_hankel": 1,
+   "pairs_resolved": 0,
+   "pairs_unresolved": 1,
+   "weak_pairs": 0,
+   "real_poles": [],
+   "periods_resolved": [],
+   "periods_unresolved": [
+    1538.0
+   ],
+   "mod_resolved": [],
+   "above_AR1": 2,
+   "osc_above_AR1": 0,
+   "periods_above_AR1": [],
+   "above_1/f": 1,
+   "osc_above_1/f": 0,
+   "periods_above_1/f": [],
+   "detrended": {
+    "d_hankel": 2,
+    "pairs_resolved": 0,
+    "pairs_unresolved": 1,
+    "real_poles": [],
+    "periods_resolved": []
+   },
+   "resolved_surviving_detrend": 0,
+   "windowed_d_hankel": [
+    1,
+    1
+   ],
+   "windowed_real_poles": [
+    [],
+    [
+     1.0,
+     0.9869999885559082
+    ]
+   ],
+   "windowed_unresolved": [
+    [
+     1331.0
+    ],
+    []
+   ],
+   "step_norm_first50_last50": [
+    0.011854657903313637,
+    0.00043558518518693745
+   ],
+   "dist_to_final_first_last": [
+    1.174284815788269,
+    0.021778881549835205
+   ]
+  },
+  {
+   "label": "rollout 1",
+   "N": 300,
+   "d_hankel": 1,
+   "pairs_resolved": 0,
+   "pairs_unresolved": 1,
+   "weak_pairs": 0,
+   "real_poles": [],
+   "periods_resolved": [],
+   "periods_unresolved": [
+    1392.0
+   ],
+   "mod_resolved": [],
+   "above_AR1": 2,
+   "osc_above_AR1": 0,
+   "periods_above_AR1": [],
+   "above_1/f": 1,
+   "osc_above_1/f": 0,
+   "periods_above_1/f": [],
+   "detrended": {
+    "d_hankel": 2,
+    "pairs_resolved": 0,
+    "pairs_unresolved": 1,
+    "real_poles": [],
+    "periods_resolved": []
+   },
+   "resolved_surviving_detrend": 0,
+   "windowed_d_hankel": [
+    1,
+    1
+   ],
+   "windowed_real_poles": [
+    [],
+    [
+     1.0,
+     0.9869999885559082
+    ]
+   ],
+   "windowed_unresolved": [
+    [
+     1215.0
+    ],
+    []
+   ],
+   "step_norm_first50_last50": [
+    0.014819558709859848,
+    0.0005653121042996645
+   ],
+   "dist_to_final_first_last": [
+    1.5046894550323486,
+    0.028265317901968956
+   ]
+  },
+  {
+   "label": "rollout 2",
+   "N": 300,
+   "d_hankel": 1,
+   "pairs_resolved": 0,
+   "pairs_unresolved": 0,
+   "weak_pairs": 0,
+   "real_poles": [
+    0.9959999918937683,
+    0.9919999837875366
+   ],
+   "periods_resolved": [],
+   "periods_unresolved": [],
+   "mod_resolved": [],
+   "above_AR1": 2,
+   "osc_above_AR1": 0,
+   "periods_above_AR1": [],
+   "above_1/f": 1,
+   "osc_above_1/f": 0,
+   "periods_above_1/f": [],
+   "detrended": {
+    "d_hankel": 2,
+    "pairs_resolved": 0,
+    "pairs_unresolved": 1,
+    "real_poles": [],
+    "periods_resolved": []
+   },
+   "resolved_surviving_detrend": 0,
+   "windowed_d_hankel": [
+    1,
+    1
+   ],
+   "windowed_real_poles": [
+    [
+     0.9950000047683716,
+     0.9929999709129333
+    ],
+    [
+     1.0,
+     0.9879999756813049
+    ]
+   ],
+   "windowed_unresolved": [
+    [],
+    []
+   ],
+   "step_norm_first50_last50": [
+    0.0221423152834177,
+    0.0008716958691366017
+   ],
+   "dist_to_final_first_last": [
+    2.2557497024536133,
+    0.04358459636569023
+   ]
+  }
+ ]
+}
