@@ -23,13 +23,17 @@ Measured on held-out trajectories: the BOID count (components above the 95 % per
 | quantity | run 0 | run 1 | run 2 |
 |---|---|---|---|
 | components above the surrogate threshold (BOID count) | 23 | 22 | 20 |
-| count in 256-frame windows along the run | 11 → 19 (rises as the agent leaves the corridor for the rooms) | | |
+| count in 256-frame windows along the run | 11–19 | 10–20 | 10–18 |
+| correlation of the windowed count with the agent's mean speed | +0.69 | +0.50 | +0.36 |
+| correlation with the share of frames stuck at a wall | −0.71 | −0.44 | −0.72 |
 | components on a 300-step autonomous rollout | 2 | 2 | 2 |
 | jitter (share of power at periods < 5 frames) | 0.079 | 0.044 | 0.046 |
 | jaggedness of the latent path (1 = smooth; Ren et al. report 5.3 for SG) | 4.15 | 4.22 | 3.82 |
 | readout R², agent position (ridge, 5-fold CV) | 0.16 | 0.62 | 0.58 |
 | readout R², block position | 0.51 | not pushed | 0.74 |
 | leading periods, frames | 123, 55, 19, 15 | 1184, 409, 238, 31 | 1198, 274, 68, 28 |
+
+**When the regime changes.** The windowed count follows how freely the agent moves, in all three runs: high where it travels unobstructed, low where it is pressed against walls (windows with a stuck share of 0.23–0.27 give 10–12 components, windows with 0.13–0.17 give 17–20). Rooms versus corridors do not decide it (the correlation with the share of frames in open cells changes sign between runs), nor does contact with the block. The regimes of this latent are regimes of the input; the predictor on its own has none (`medium_SG_regimes.json`).
 
 `jepa_boid_latent_3d.png` and `jepa_boid_latent_3d.mp4`: the latent in PC1–PC3 coloured by the agent's position, the maze with the same colours, and the BOID count along the run and into the rollout. The readout is a cross-validated ridge regression on the standardised latent (a split-halves readout fails on these runs because the agent visits different rooms in the two halves). An earlier U-maze version of the toy (`run_umaze/` in the working folder) gave 16–19 components, jaggedness 4.4 and the same collapse to 2 on the rollout.
 
