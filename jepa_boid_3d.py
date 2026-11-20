@@ -45,13 +45,13 @@ def draw(fig, azim, elev=24):
     ins.scatter(P[:, 0], P[:, 1], s=5, c=col, lw=0); ins.set_title("top-down maze, agent path, colour = position", fontsize=9)
     axc = fig.add_axes([0.64, 0.15, 0.34, 0.35])
     axc.plot(cnt_real[:, 0], cnt_real[:, 1], color="C0", lw=2.2, marker="o", ms=4, label="latent dimension, with input")
-    axc.plot(cnt_real[:, 0], cnt_real[:, 2], color="C2", lw=2.2, marker="s", ms=4, label="BOID: rhythms above red noise, with input")
+    axc.plot(cnt_real[:, 0], cnt_real[:, 2], color="C2", lw=2.2, marker="s", ms=4, label="BOID (rhythms above red noise), with input")
     axc.plot(Z.shape[1] + cnt_roll[:, 0], cnt_roll[:, 1], color=PINK, lw=2.2, marker="o", ms=4, label="latent dimension, predictor on its own")
     axc.plot(Z.shape[1] + cnt_roll[:, 0], cnt_roll[:, 2], color=PINK, lw=1.4, ls="--", marker="s", ms=4, label="BOID, predictor on its own")
     axc.axvline(Z.shape[1], color="0.5", ls=":", lw=1); axc.text(Z.shape[1] + 10, cnt_real[:, 1].max() + 0.6, "rollout starts", fontsize=8, color="0.4")
-    axc.set_ylim(0, cnt_real[:, 1].max() + 7); axc.set_xlabel("frame"); axc.set_ylabel("components / oscillators"); axc.legend(fontsize=7, loc="upper left", ncol=2)
+    axc.set_ylim(0, cnt_real[:, 1].max() + 9); axc.set_xlabel("frame"); axc.set_ylabel("components / oscillators"); axc.legend(fontsize=7, loc="upper left", ncol=1, frameon=False)
     axc.set_title("latent dimension and BOID along the run (256-frame windows)", fontsize=10); axc.grid(alpha=0.3)
-    fig.text(0.64, 0.045, f"with input: {int(cnt_real[:, 1].min())}–{int(cnt_real[:, 1].max())} Hankel components, but only {int(cnt_real[:, 2].min())}–{int(cnt_real[:, 2].max())} rhythms above red noise;\non its own: {int(np.median(cnt_roll[:, 1]))} components at the threshold, real poles, no oscillation (BOID {int(np.median(cnt_roll[:, 2]))}).   github.com/aicumene/BOID-JEPA", fontsize=8.5, color="0.3", va="center")
+    fig.text(0.62, 0.045, f"with input: {int(cnt_real[:, 1].min())}–{int(cnt_real[:, 1].max())} Hankel components, only {int(cnt_real[:, 2].min())}–{int(cnt_real[:, 2].max())} rhythms above red noise;\non its own: {int(np.median(cnt_roll[:, 1]))} components at the threshold, real poles, no oscillation (BOID {int(np.median(cnt_roll[:, 2]))}).\ngithub.com/aicumene/BOID-JEPA", fontsize=8, color="0.3", va="center")
 fig = plt.figure(figsize=(12.8, 7.2), dpi=150); draw(fig, azim=-55); fig.savefig(os.path.join(HERE, "jepa_boid_latent_3d.png"), facecolor="white"); plt.close(fig); print("png saved")
 import imageio.v2 as imageio
 wr = imageio.get_writer(os.path.join(HERE, "jepa_boid_latent_3d.mp4"), fps=30, codec="libx264", quality=8, pixelformat="yuv420p", macro_block_size=None); n = 360
