@@ -2,7 +2,7 @@
 
 Counting the oscillatory modes that a JEPA world-model latent sustains in time, under three training objectives: stop-gradient, SVReg and Slow SVReg.
 
-Alexandra Bernadotte and Ivan Menshikov, Aicumene, November 2026. Status: preliminary, a toy-scale reproduction; results are being added as the runs finish.
+Alexandra Bernadotte and Ivan Menshikov, Aicumene, November 2026. Status: a toy-scale first measurement on the stop-gradient model only; the SVReg and Slow SVReg regimes are left for the real model of Ren et al., not for a toy.
 
 ## What this is
 
@@ -14,7 +14,7 @@ BOID, the Bernadotte Oscillator Intrinsic Dimension, reads the same latent in ti
 2. Do the slow factors that plain SVReg loses reappear as low-frequency modes in the slow channels of Slow SVReg?
 3. Does a world model have regimes when its predictor runs beyond the rollout horizon?
 
-The code of Ren et al. is not released, so `jepa_boid_toy.py` builds a toy copy of their top-down PointMaze setup: a U-maze with a point agent and a pushable block (the slow factor), one uniform-random exploration trajectory of 5000 frames at 48×48 pixels, a convolutional encoder with BatchNorm, a predictor with a three-frame history and the action, latent dimension 32, and the three objectives written from the report's equations (1)–(3): SG, SVReg with λ = 10, Slow SVReg with the last 1/8 of the latent as slow channels, weight 1/λ, and the gated residual predictor with the gate initialised at 0.1. Three seeds, 3000 steps of batch 32.
+The code of Ren et al. is not released, so `jepa_boid_toy.py` builds a toy copy of their top-down PointMaze setup: a U-maze with a point agent and a pushable block (the slow factor), one uniform-random exploration trajectory of 5000 frames at 48×48 pixels, a convolutional encoder with BatchNorm, a predictor with a three-frame history and the action, latent dimension 32, and the three objectives written from the report's equations (1)–(3): SG, SVReg with λ = 10, Slow SVReg with the last 1/8 of the latent as slow channels, weight 1/λ, and the gated residual predictor with the gate initialised at 0.1. 3000 steps of batch 32. Only the stop-gradient model was run (one seed); the script contains all three objectives.
 
 Measured on held-out trajectories: the BOID count (components above the 95 % permutation-surrogate threshold), the poles of the leading modes, the share of latent power at periods under five frames (jitter), the jaggedness of the latent path, the linear readout R² of the agent and block positions, and the count on a 400-step autonomous rollout of the predictor with the actions held at zero.
 
@@ -29,7 +29,7 @@ Measured on held-out trajectories: the BOID count (components above the 95 % per
 | readout R², agent position | 0.48 |
 | readout R², block position | below 0 |
 
-The SVReg and Slow SVReg runs are in progress; the table and `jepa_boid_figure.png` will be updated.
+We stopped here on purpose: the two regularized regimes should be measured on the released model, where the question is real, rather than on a toy.
 
 ## Run
 
