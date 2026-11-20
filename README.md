@@ -18,18 +18,22 @@ The code of Ren et al. is not released, so `jepa_boid_toy.py` builds a toy copy 
 
 Measured on held-out trajectories: the BOID count (components above the 95 % permutation-surrogate threshold), the poles of the leading modes, the share of latent power at periods under five frames (jitter), the jaggedness of the latent path, the linear readout R² of the agent and block positions, and the count on a 400-step autonomous rollout of the predictor with the actions held at zero.
 
-## First numbers (stop-gradient, seed 0, three held-out runs)
+## First numbers (stop-gradient, maze2d-medium layout, three held-out runs of 1024 frames)
 
-| quantity | value |
-|---|---|
-| components above the surrogate threshold | 16, 19, 18 |
-| components on the autonomous rollout | 2, 2, 2 |
-| jitter (power at periods < 5 frames) | 0.041 |
-| jaggedness of the latent path (1 = smooth) | 4.43 |
-| readout R², agent position | 0.48 |
-| readout R², block position | below 0 |
+| quantity | run 0 | run 1 | run 2 |
+|---|---|---|---|
+| components above the surrogate threshold (BOID count) | 23 | 22 | 20 |
+| count in 256-frame windows along the run | 11 → 19 (rises as the agent leaves the corridor for the rooms) | | |
+| components on a 300-step autonomous rollout | 2 | 2 | 2 |
+| jitter (share of power at periods < 5 frames) | 0.079 | 0.044 | 0.046 |
+| jaggedness of the latent path (1 = smooth; Ren et al. report 5.3 for SG) | 4.15 | 4.22 | 3.82 |
+| readout R², agent position (ridge, 5-fold CV) | 0.16 | 0.62 | 0.58 |
+| readout R², block position | 0.51 | not pushed | 0.74 |
+| leading periods, frames | 123, 55, 19, 15 | 1184, 409, 238, 31 | 1198, 274, 68, 28 |
 
-We stopped here on purpose: the two regularized regimes should be measured on the released model, where the question is real, rather than on a toy.
+`jepa_boid_latent_3d.png` and `jepa_boid_latent_3d.mp4`: the latent in PC1–PC3 coloured by the agent's position, the maze with the same colours, and the BOID count along the run and into the rollout. The readout is a cross-validated ridge regression on the standardised latent (a split-halves readout fails on these runs because the agent visits different rooms in the two halves). An earlier U-maze version of the toy (`run_umaze/` in the working folder) gave 16–19 components, jaggedness 4.4 and the same collapse to 2 on the rollout.
+
+We stopped at the stop-gradient model on purpose: the two regularized regimes should be measured on the released model, where the question is real, rather than on a toy.
 
 ## Run
 
@@ -37,11 +41,12 @@ We stopped here on purpose: the two regularized regimes should be measured on th
 pip install numpy torch matplotlib
 python jepa_boid_toy.py 3000 3      # steps, seeds; writes jepa_boid_results.json, latents_*.npz, model_*.pt
 python jepa_boid_figure.py          # latent maps, counts, spectra, readouts
+python jepa_boid_3d.py              # 3-D latent map with the BOID trace, PNG and rotating MP4
 ```
 
 ## References
 
-- Ren M., Wang Y., Hoang C., Kuang Y., LeCun Y. (2026). The content–geometry tradeoff in world models: when JEPA learns latent maps. AGL-TR-2026-04. https://doi.org/10.5281/zenodo.24356797
+- Ren M., Wang Y., Hoang C., Kuang Y., LeCun Y. (2026). The content–geometry tradeoff in world models: when JEPA learns latent maps. AGL-TR-2026-04. https://doi.org/10.5281/zenodo.24356797 · alphaXiv: https://www.alphaxiv.org/abs/2611.jepa-latent-maps-content-geometry · project page: https://agenticlearning.ai/content-geometry-tradeoff/
 - Bernadotte A., Menshikov I. (2026). From Brain Dynamics to Strong Artificial Intelligence: Learning Creates Functional Regime Switching. Aicumene Preprint 2026.045v2. https://doi.org/10.13140/RG.2.2.22357.59364 · https://research.aicumene.com/papers/BOID-JEPA/
 - Bernadotte A., Menshikov I. (2026). Multichannel Singular Spectrum Analysis: Counting Oscillatory Modes and Recovering Their Spatial Loadings. SSRN 7693202. https://doi.org/10.2139/ssrn.7693202 · code https://github.com/aicumene/MSSA
 - Bernadotte A., Menshikov I. (2026). Brain Oscillator Intrinsic Dimension Marks Consciousness, Recovery Mode, and Failed Downshifting in Coma. SSRN 7667278. https://doi.org/10.2139/ssrn.7667278

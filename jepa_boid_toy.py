@@ -8,36 +8,51 @@ objective, after Ren, Wang, Hoang, Kuang, LeCun (2026, AGL-TR-2026-04):
 Measured on held-out trajectories of the latent z_t: the BOID count (MSSA with permutation surrogates), the poles of the
 leading modes, the share of latent power at periods under five steps (their jitter), the linear readout R^2 of the agent
 and block positions (content), the latent path jaggedness (geometry), and the count on autonomous rollouts of the
-predictor beyond its training horizon.  Usage: python jepa_boid_toy.py [steps] [seeds]"""
+predictor beyond its training horizon.  Usage: python jepa_boid_toy.py [steps] [seeds] [variants, e.g. SG or SG,SVReg,SlowSVReg]"""
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F, sys, time, json, os
 torch.set_num_threads(4); HERE = os.path.dirname(os.path.abspath(__file__))
 STEPS = int(sys.argv[1]) if len(sys.argv) > 1 else 4000; SEEDS = int(sys.argv[2]) if len(sys.argv) > 2 else 3
+VARIANTS = sys.argv[3].split(",") if len(sys.argv) > 3 else ["SG", "SVReg", "SlowSVReg"]
 IMG, D, T, B = 48, 32, 16, 32; LAMBDA, BETA = 10.0, 0.1; SLOW = D//8
 
 # ----------------------------------------------------------------- environment: U-maze with a pushable block
-WALLS = [(0.0, 0.0, 1.0, 0.06), (0.0, 0.94, 1.0, 0.06), (0.0, 0.0, 0.06, 1.0), (0.94, 0.0, 0.06, 1.0), (0.30, 0.35, 0.40, 0.30)]  # x,y,w,h; central block = the U's core
-def blocked(p, r=0.04):
+MAZE = ["11111111",
+        "10011001",
+        "10010001",
+        "11000111",
+        "10010001",
+        "10100101",
+        "10001001",
+        "11111111"]                                                                   # maze2d-medium layout (Fu et al. 2020), 8x8 cells
+CELL = 1.0/len(MAZE)
+WALLS = [(c*CELL, (len(MAZE)-1-r)*CELL, CELL, CELL) for r, row in enumerate(MAZE) for c, ch in enumerate(row) if ch == "1"]   # x,y,w,h
+def blocked(p, r=0.03):
     for (x, y, w, h) in WALLS:
         if x - r < p[0] < x + w + r and y - r < p[1] < y + h + r: return True
     return False
 def free_point(rng):
     while True:
-        p = rng.uniform(0.08, 0.92, 2)
-        if not blocked(p, 0.06): return p
-def rollout(N, rng, step=0.05, actions=None):
-    """uniform-random actions (velocity commands), five env steps per frame; the block moves only when pushed"""
+        p = rng.uniform(0.15, 0.85, 2)
+        if not blocked(p, 0.045): return p
+def rollout(N, rng, step=0.045, actions=None):
+    """smooth random driving (persistent heading, a new heading when stuck), five env steps per frame;
+    the block moves only when pushed"""
     agent = free_point(rng); block = free_point(rng)
     while np.linalg.norm(block - agent) < 0.2: block = free_point(rng)
-    A, P, Q = [], [], []
+    A, P, Q = [], [], []; a = rng.uniform(-1, 1, 2)
     for n in range(N):
-        a = actions[n] if actions is not None else rng.uniform(-1, 1, 2)
+        if actions is not None: a = actions[n]
+        else: a = np.clip(0.85*a + 0.5*rng.standard_normal(2), -1, 1)
+        stuck = 0
         for _ in range(5):
             new = agent + step/5*a
             if not blocked(new): agent = new
+            else: stuck += 1
             d = block - agent
-            if np.linalg.norm(d) < 0.09:                                     # contact: push the block away from the agent
-                nb = block + 0.6*(step/5)*(d/ (np.linalg.norm(d)+1e-9))*np.linalg.norm(a)
-                if not blocked(nb, 0.05): block = nb
+            if np.linalg.norm(d) < 0.07:                                     # contact: push the block away from the agent
+                nb = block + 0.6*(step/5)*(d/(np.linalg.norm(d)+1e-9))*np.linalg.norm(a)
+                if not blocked(nb, 0.035): block = nb
+        if stuck >= 3 and actions is None: a = rng.uniform(-1, 1, 2)
         A.append(a.copy()); P.append(agent.copy()); Q.append(block.copy())
     return np.array(A, np.float32), np.array(P, np.float32), np.array(Q, np.float32)
 def render(P, Q):
@@ -46,8 +61,8 @@ def render(P, Q):
     for (x, y, w, h) in WALLS: wall[(xx >= x) & (xx <= x+w) & (yy >= y) & (yy <= y+h)] = 0.35
     for i in range(len(P)):
         f = wall.copy()
-        f += np.exp(-(((xx-P[i, 0])**2 + (yy-P[i, 1])**2))/(2*0.03**2))             # agent: bright blob
-        f += 0.6*np.exp(-(((xx-Q[i, 0])**2 + (yy-Q[i, 1])**2))/(2*0.035**2))        # block: dimmer blob
+        f += np.exp(-(((xx-P[i, 0])**2 + (yy-P[i, 1])**2))/(2*0.022**2))            # agent: bright blob
+        f += 0.6*np.exp(-(((xx-Q[i, 0])**2 + (yy-Q[i, 1])**2))/(2*0.026**2))        # block: dimmer blob
         frames[i] = np.clip(f, 0, 1)
     return frames
 
@@ -117,10 +132,16 @@ def jaggedness(Z):
     """path length of the latent route divided by the length of its 10-step-smoothed version (1 = smooth)"""
     d = np.linalg.norm(np.diff(Z, axis=1), axis=0).sum(); k = 10; S = np.stack([np.convolve(z, np.ones(k)/k, mode="valid") for z in Z]); ds = np.linalg.norm(np.diff(S, axis=1), axis=0).sum()
     return float(d/max(ds, 1e-9))
-def readout_r2(Z, Y):
-    """linear readout of positions from the latent, R^2 on the second half after fitting on the first"""
-    n = Z.shape[1]//2; Xa = np.c_[Z.T, np.ones(Z.shape[1])]; W = np.linalg.lstsq(Xa[:n], Y[:n], rcond=None)[0]; pred = Xa[n:] @ W
-    return float(1 - ((Y[n:] - pred)**2).sum()/((Y[n:] - Y[n:].mean(0))**2).sum())
+def readout_r2(Z, Y, lam=1.0, k=5):
+    """linear readout of positions from the standardised latent: ridge regression, 5-fold cross-validated R^2;
+    undefined (nan) when the target barely moves (e.g. a block that was never pushed)"""
+    if Y.var(0).sum() < 1e-4: return float("nan")
+    Zs = (Z - Z.mean(1, keepdims=True))/(Z.std(1, keepdims=True) + 1e-8); X = np.c_[Zs.T, np.ones(Z.shape[1])]
+    idx = np.arange(len(Y)); ss_res = ss_tot = 0.0
+    for f in np.array_split(idx, k):
+        tr = np.setdiff1d(idx, f); A = X[tr]; W = np.linalg.solve(A.T @ A + lam*np.eye(A.shape[1]), A.T @ Y[tr]); pred = X[f] @ W
+        ss_res += ((Y[f] - pred)**2).sum(); ss_tot += ((Y[f] - Y.mean(0))**2).sum()
+    return float(1 - ss_res/ss_tot)
 @torch.no_grad()
 def latents(enc, frames): return enc(torch.tensor(frames)[:, None]).numpy().T             # D x N
 @torch.no_grad()
@@ -137,7 +158,7 @@ if __name__ == "__main__":
     held = [rollout(1024, np.random.default_rng(100+k)) for k in range(3)]; Xh = [render(P, Q) for (_, P, Q) in held]
     print(f"data: 5000 training frames, 3 held-out runs of 1024 frames; block moved in {np.mean([np.linalg.norm(np.diff(Q, axis=0), axis=1).sum() > 0.05 for (_, _, Q) in held]):.0%} of runs ({time.time()-t0:.0f} s)")
     results = {}
-    for variant in ("SG", "SVReg", "SlowSVReg"):
+    for variant in VARIANTS:
         rows = []
         for seed in range(SEEDS):
             enc, pred = train(variant, X_tr, A_tr, seed)
