@@ -1,0 +1,11 @@
+{
+  "title": "BOID for JEPA: counting the oscillatory modes a JEPA world-model latent sustains in time",
+  "upload_type": "software",
+  "creators": [
+    {"name": "Bernadotte, Alexandra", "affiliation": "Aicumene", "orcid": "0000-0002-8835-6583"},
+    {"name": "Menshikov, Ivan", "affiliation": "Aicumene", "orcid": "0000-0002-9987-4060"}
+  ],
+  "related_identifiers": [{"identifier": "10.2139/ssrn.7733442", "relation": "isSupplementTo", "scheme": "doi"}],
+  "keywords": ["Aicumene", "multichannel singular spectrum analysis", "BOID", "verification games"],
+  "access_right": "open"
+}

@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper below."
+type: software
+title: "BOID for JEPA: counting the oscillatory modes a JEPA world-model latent sustains in time"
+authors:
+  - family-names: Bernadotte
+    given-names: Alexandra
+    orcid: https://orcid.org/0000-0002-8835-6583
+    affiliation: Aicumene
+  - family-names: Menshikov
+    given-names: Ivan
+    orcid: https://orcid.org/0000-0002-9987-4060
+    affiliation: Aicumene
+repository-code: https://github.com/aicumene/BOID-JEPA
+url: https://research.aicumene.com
+license: PolyForm-Noncommercial-1.0.0
+date-released: 2026-11-24
+version: "1.0.0"
+preferred-citation:
+  type: article
+  title: "From Brain Dynamics to Strong Artificial Intelligence: Learning Creates Functional Regime Switching"
+  authors:
+    - family-names: Bernadotte
+      given-names: Alexandra
+    - family-names: Menshikov
+      given-names: Ivan
+  year: 2026
+  journal: "SSRN working paper"
+  doi: 10.2139/ssrn.7733442
+  url: https://ssrn.com/abstract=7733442
+  date-published: 2026-11-20
